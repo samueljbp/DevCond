@@ -38,9 +38,16 @@ export default () => {
         checkLogin();
     }, []);
 
+    //função temporária - remover depois
+    const handleLougout = async () => {
+        await api.logout();
+        util.navigateWithReset(navigator, 'LoginScreen');
+    };
+
     return (
         <C.Container>
             <C.LoadingIcon color="#8863E6" size="large" />
+            <C.Button title="SAIR" onPress={handleLougout} />
         </C.Container>
     );
 };

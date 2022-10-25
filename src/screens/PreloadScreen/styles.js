@@ -7,4 +7,5 @@ export default {
         align-items: center;
     `,
     LoadingIcon: styled.ActivityIndicator``,
+    Button: styled.Button``,
 };

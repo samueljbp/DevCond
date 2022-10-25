@@ -14,7 +14,8 @@ export default () => {
 
     const handleLoginButton = async () => {
         if (!(cpf || pwd)) {
-            alert('Preencha os campos!');
+            util.showToastAlert('Atenção', 'Preencha os campos');
+            return;
         }
 
         let result = await api.login(cpf, pwd);
@@ -36,7 +37,7 @@ export default () => {
 
             util.navigateWithReset(navigation, 'ChoosePropertyScreen');
         } else {
-            alert(result.error);
+            util.showToastAlert('Erro', result.error);
         }
     };
 

@@ -1,4 +1,6 @@
 import {useNavigation, CommonActions} from '@react-navigation/native';
+import {Toast, VStack} from 'native-base';
+import ToastAlert from '../components/ToastAlert';
 
 export default {
     navigateWithReset: (navigator, destinationRoute) => {
@@ -8,5 +10,29 @@ export default {
                 routes: [{name: destinationRoute}],
             }),
         );
+    },
+    showToastAlert: (
+        title,
+        description,
+        variant = 'top-accent',
+        isClosable = true,
+        status = null,
+    ) => {
+        Toast.show({
+            render: ({id}) => {
+                return (
+                    <VStack>
+                        <ToastAlert
+                            id={id}
+                            title={title}
+                            description={description}
+                            variant={variant}
+                            isClosable={isClosable}
+                            status={status}
+                        />
+                    </VStack>
+                );
+            },
+        });
     },
 };
