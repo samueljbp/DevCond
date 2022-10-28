@@ -35,7 +35,7 @@ export default {
     PropertyList: styled.View`
         margin: 20px 0;
     `,
-    Button: styled.TouchableOpacity`
+    ButtonArea: styled.TouchableOpacity`
         background-color: #fff;
         border-width: 2px;
         border-color: #e8e9ed;

@@ -18,7 +18,7 @@ export default () => {
 
             if (property) {
                 property = JSON.parse(property);
-                // ESCOLHYER PROPRIEDADE
+                await chooseProperty(property);
             }
             setLoading(false);
         };
@@ -28,6 +28,19 @@ export default () => {
     handleLogout = async () => {
         await api.logout();
         util.navigateWithReset(navigation, 'LoginScreen');
+    };
+
+    const chooseProperty = async property => {
+        await AsyncStorage.setItem('property', JSON.stringify(property));
+
+        dispatch({
+            type: 'setProperty',
+            payload: {
+                property,
+            },
+        });
+
+        util.navigateWithReset(navigation, 'MainDrawer');
     };
 
     return (
@@ -43,9 +56,11 @@ export default () => {
 
                         <C.PropertyList>
                             {context.user.user.properties.map((item, index) => (
-                                <C.Button key={index} onPress={null}>
+                                <C.ButtonArea
+                                    key={index}
+                                    onPress={() => chooseProperty(item)}>
                                     <C.ButtonText>{item.name}</C.ButtonText>
-                                </C.Button>
+                                </C.ButtonArea>
                             ))}
                         </C.PropertyList>
                     </>
