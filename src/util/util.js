@@ -4,12 +4,17 @@ import ToastAlert from '../components/ToastAlert';
 
 export default {
     navigateWithReset: (navigator, destinationRoute) => {
-        navigator.dispatch(
+        /* navigator.dispatch(
             CommonActions.reset({
                 index: 1,
                 routes: [{name: destinationRoute}],
             }),
-        );
+        ); */
+
+        navigator.reset({
+            index: 0,
+            routes: [{name: destinationRoute}],
+        });
     },
     showToastAlert: (
         title,

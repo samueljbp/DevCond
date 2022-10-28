@@ -23,7 +23,7 @@ export default () => {
                     });
                     util.navigateWithReset(navigator, 'ChoosePropertyScreen');
                 } else {
-                    alert(result.error);
+                    util.showToastAlert('Erro', result.error);
                     dispatch({
                         type: 'setToken',
                         payload: {token: ''},

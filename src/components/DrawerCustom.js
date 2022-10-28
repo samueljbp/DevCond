@@ -1,10 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {
-    useNavigation,
-    getFocusedRouteNameFromRoute,
-    useRoute,
-} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 import {useStateValue} from '../contexts/StateContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -92,14 +88,12 @@ const MenuSquare = styled.View`
 const MenuButtonText = styled.Text`
     font-size: 15px;
     margin-left: 10px;
-    color: #666e78;
+    color: ${props => (props.selected ? '#8863e6' : '#666e78')};
 `;
 
 export default props => {
     const navigation = useNavigation();
     const [context, dispatch] = useStateValue();
-
-    console.log(props.focusedRoute);
 
     const menus = [
         {title: 'Mural de avisos', icon: 'inbox', screen: 'WallScreen'},
@@ -118,12 +112,12 @@ export default props => {
     const handleChangeUnit = async () => {
         await AsyncStorage.removeItem('property').then(() => {});
 
-        navigation.navigate('ChoosePropertyScreen');
+        util.navigateWithReset(navigation, 'ChoosePropertyScreen');
     };
 
     const handleLogout = async () => {
         await api.logout();
-        util.navigateWithReset(navigator, 'LoginScreen');
+        util.navigateWithReset(navigation, 'LoginScreen');
     };
 
     return (
@@ -136,18 +130,31 @@ export default props => {
             </DrawerLogoArea>
             <DrawerScroller>
                 {menus.map((item, index) => {
-                    let selected = item.screen == props.focusedRoute;
+                    let selected =
+                        item.screen ==
+                        props.state.routes[props.state.index].name;
                     return (
                         <MenuButton
                             key={index}
                             onPress={() => navigation.navigate(item.screen)}>
                             <MenuSquare selected={selected}></MenuSquare>
-                            <Icon
-                                name={item.icon}
-                                size={20}
-                                color={'#666E78'}
-                            />
-                            <MenuButtonText>{item.title}</MenuButtonText>
+                            {selected && (
+                                <Icon
+                                    name={item.icon}
+                                    size={20}
+                                    color={'#8863e6'}
+                                />
+                            )}
+                            {!selected && (
+                                <Icon
+                                    name={item.icon}
+                                    size={20}
+                                    color={'#666E78'}
+                                />
+                            )}
+                            <MenuButtonText selected={selected}>
+                                {item.title}
+                            </MenuButtonText>
                         </MenuButton>
                     );
                 })}

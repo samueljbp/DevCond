@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import api from '../services/api';
+import util from '../util/util';
 
 const Box = styled.View`
     background-color: #fff;
@@ -58,21 +60,42 @@ const LikeText = styled.Text`
 `;
 
 export default ({data}) => {
+    const [likeCount, setLikeCount] = useState(data.likes);
+    const [liked, setLiked] = useState(data.liked);
+
+    const handleLike = async () => {
+        setLiked(!liked);
+        const result = await api.likeWallPost(data.id);
+        if (result.error === '') {
+            setLikeCount(result.likes);
+            setLiked(result.liked);
+        } else {
+            util.showToastAlert('Erro', result.error);
+        }
+    };
+
     return (
         <Box>
             <HeaderArea>
                 <Icon name="newspaper-o" size={30} color="8B63E7" />
                 <InfoArea>
-                    <Title>Titulo</Title>
-                    <Date>Data de criação</Date>
+                    <Title>{data.title}</Title>
+                    <Date>{data.datecreated}</Date>
                 </InfoArea>
             </HeaderArea>
-            <Body>Texto do aviso</Body>
+            <Body>{data.body}</Body>
             <FooterArea>
-                <LikeButton>
-                    <Icon name="heart" size={17} color="#FF0000" />
+                <LikeButton onPress={handleLike}>
+                    {liked ? (
+                        <Icon name="heart" size={17} color="#FF0000" />
+                    ) : (
+                        <Icon name="heart-o" size={17} color="#FF0000" />
+                    )}
                 </LikeButton>
-                <LikeText>99 pessoas curtiram</LikeText>
+                <LikeText>
+                    {likeCount} pessoa{likeCount === 1 ? '' : 's'} curti
+                    {likeCount === 1 ? 'u' : 'ram'}
+                </LikeText>
             </FooterArea>
         </Box>
     );

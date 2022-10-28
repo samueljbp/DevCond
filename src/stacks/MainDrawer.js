@@ -1,26 +1,16 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import WallScreen from '../screens/WallScreen';
-import BlahScreen from '../screens/WallScreen';
-import {NavigationContainer} from '@react-navigation/native';
+import DocumentScreen from '../screens/DocumentScreen';
+import BilletScreen from '../screens/BilletScreen';
 import DrawerCustom from '../components/DrawerCustom';
-import {
-    useNavigation,
-    getFocusedRouteNameFromRoute,
-    useRoute,
-} from '@react-navigation/native';
 
 const Drawer = createDrawerNavigator();
 
 export default props => {
-    const route = useRoute();
-    const routeName = getFocusedRouteNameFromRoute(route) ?? ``;
-
     return (
         <Drawer.Navigator
-            drawerContent={props => (
-                <DrawerCustom {...props} focusedRoute={routeName} />
-            )}
+            drawerContent={props => <DrawerCustom {...props} />}
             screenOptions={{
                 headerShown: true,
                 title: '',
@@ -36,6 +26,16 @@ export default props => {
                 name="WallScreen"
                 options={{title: 'Mural de avisos'}}
                 component={WallScreen}
+            />
+            <Drawer.Screen
+                name="DocumentScreen"
+                options={{title: 'Documentos do condomínio'}}
+                component={DocumentScreen}
+            />
+            <Drawer.Screen
+                name="BilletScreen"
+                options={{title: 'Boletos de condomínio'}}
+                component={BilletScreen}
             />
         </Drawer.Navigator>
     );

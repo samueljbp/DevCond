@@ -24,15 +24,19 @@ const request = async (method, endpoint, params, token = null) => {
         headers.Authorization = `Bearer ${token}`;
     }
 
-    let req = await fetch(fullUrl, {
-        method,
-        headers,
-        body,
-    });
+    try {
+        let req = await fetch(fullUrl, {
+            method,
+            headers,
+            body,
+        });
 
-    let json = await req.json();
+        let json = await req.json();
 
-    return json;
+        return json;
+    } catch (ex) {
+        return {error: ex.toString()};
+    }
 };
 
 export default {
@@ -71,6 +75,28 @@ export default {
     getWall: async () => {
         let token = await AsyncStorage.getItem('token');
         let json = await request('get', '/walls', {}, token);
+        return json;
+    },
+    likeWallPost: async id => {
+        let token = await AsyncStorage.getItem('token');
+        let json = await request('post', `/wall/${id}/like`, {}, token);
+        return json;
+    },
+    getDocs: async () => {
+        let token = await AsyncStorage.getItem('token');
+        let json = await request('get', '/docs', {}, token);
+        return json;
+    },
+    getBillets: async id => {
+        let token = await AsyncStorage.getItem('token');
+        let json = await request(
+            'get',
+            '/billets',
+            {
+                property: id,
+            },
+            token,
+        );
         return json;
     },
 };
