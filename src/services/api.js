@@ -1,4 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import ReactNativeBlobUtil from 'react-native-blob-util';
 
 const baseUrl = 'https://api.b7web.com.br/devcond/api';
 
@@ -94,6 +96,68 @@ export default {
             '/billets',
             {
                 property: id,
+            },
+            token,
+        );
+        return json;
+    },
+    getWarnings: async id => {
+        let token = await AsyncStorage.getItem('token');
+        let json = await request(
+            'get',
+            '/warnings',
+            {
+                property: id,
+            },
+            token,
+        );
+        return json;
+    },
+    addWarningFile: async file => {
+        let token = await AsyncStorage.getItem('token');
+        let formData = new FormData();
+        formData.append('photo', {
+            uri: file.uri,
+            type: file.type,
+            name: file.fileName,
+        });
+
+        try {
+            let req = await ReactNativeBlobUtil.fetch(
+                'POST',
+                `${baseUrl}/warning/file`,
+                {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+                [
+                    {
+                        name: 'photo',
+                        filename: file.fileName,
+                        type: file.type,
+                        data: ReactNativeBlobUtil.wrap(file.uri),
+                    },
+                ],
+            );
+
+            let json = await req.json();
+            return json;
+        } catch (ex) {
+            return {error: ex.toString()};
+        }
+    },
+    addWarning: async (warningText, photoList) => {
+        let token = await AsyncStorage.getItem('token');
+        let property = await AsyncStorage.getItem('property');
+        property = JSON.parse(property);
+        console.log(photoList);
+        let json = await request(
+            'post',
+            '/warning',
+            {
+                title: warningText,
+                list: photoList.length > 0 ? photoList : {photo: ''},
+                property: property.id,
             },
             token,
         );

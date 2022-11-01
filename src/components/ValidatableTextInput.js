@@ -16,7 +16,7 @@ export default props => {
     const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
-        if (props.isRequired && props.value === '') {
+        if ((props.isRequired && props.value === '') || hasError) {
             setHasError(true);
             return;
         }

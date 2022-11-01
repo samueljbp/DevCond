@@ -4,6 +4,8 @@ import WallScreen from '../screens/WallScreen';
 import DocumentScreen from '../screens/DocumentScreen';
 import BilletScreen from '../screens/BilletScreen';
 import DrawerCustom from '../components/DrawerCustom';
+import WarningScreen from '../screens/WarningScreen';
+import WarningAddScreen from '../screens/WarningAddScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -36,6 +38,16 @@ export default props => {
                 name="BilletScreen"
                 options={{title: 'Boletos de condomínio'}}
                 component={BilletScreen}
+            />
+            <Drawer.Screen
+                name="WarningScreen"
+                options={{title: 'Livro de ocorrências'}}
+                component={WarningScreen}
+            />
+            <Drawer.Screen
+                name="WarningAddScreen"
+                options={{title: 'Adicionar uma ocorrência'}}
+                component={WarningAddScreen}
             />
         </Drawer.Navigator>
     );
