@@ -6,6 +6,10 @@ import BilletScreen from '../screens/BilletScreen';
 import DrawerCustom from '../components/DrawerCustom';
 import WarningScreen from '../screens/WarningScreen';
 import WarningAddScreen from '../screens/WarningAddScreen';
+import ReservationScreen from '../screens/ReservationScreen';
+import LostAndFoundScreen from '../screens/LostAndFoundScreen';
+import LostAndFoundAddScreen from '../screens/LostAndFoundAddScreen';
+import UnitScreen from '../screens/UnitScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -49,6 +53,22 @@ export default props => {
                 options={{title: 'Adicionar uma ocorrência'}}
                 component={WarningAddScreen}
             />
+            <Drawer.Screen
+                name="ReservationScreen"
+                options={{title: 'Reservas disponíveis'}}
+                component={ReservationScreen}
+            />
+            <Drawer.Screen
+                name="LostAndFoundScreen"
+                options={{title: 'Achados e perdidos'}}
+                component={LostAndFoundScreen}
+            />
+            <Drawer.Screen
+                name="LostAndFoundAddScreen"
+                options={{title: 'Adicionar um Perdido'}}
+                component={LostAndFoundAddScreen}
+            />
+            <Drawer.Screen name="UnitScreen" component={UnitScreen} />
         </Drawer.Navigator>
     );
 };

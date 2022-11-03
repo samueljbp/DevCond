@@ -3,7 +3,9 @@ import styled from 'styled-components/native';
 
 const Input = styled.TextInput`
     border: 1px;
-    border-color: ${props => (props.hasError ? '#FF0000' : '#CCC')};
+    border-color: ${props => {
+        return props.hasError ? '#FF0000' : '#CCC';
+    }};
     background-color: #fff;
     border-radius: 5px;
     color: #000;
@@ -13,15 +15,23 @@ const Input = styled.TextInput`
 `;
 
 export default props => {
-    const [hasError, setHasError] = useState(false);
+    const [hasError, setHasError] = useState();
 
     useEffect(() => {
-        if ((props.isRequired && props.value === '') || hasError) {
+        if (props.isRequired && props.value === '') {
             setHasError(true);
             return;
         }
         setHasError(false);
-    }, [props.value, props.hasError]);
+    }, [props.value]);
+
+    useEffect(() => {
+        if (props.hasError) {
+            setHasError(true);
+            return;
+        }
+        setHasError(false);
+    }, [props.hasError]);
 
     useEffect(() => {
         setHasError(false);

@@ -179,7 +179,7 @@ export default props => {
                     </FooterUnitText>
                 </FooterInfo>
                 <FooterUnitButton
-                    onPress={() => navigation.navigate('ChoosePropertyScreen')}>
+                    onPress={() => navigation.navigate('UnitScreen')}>
                     <Icon name="gear" size={24} color="#666E78" />
                 </FooterUnitButton>
             </FooterArea>

@@ -11,18 +11,18 @@ export default () => {
     const navigation = useNavigation();
     const [context, dispatch] = useStateValue();
     const [loading, setLoading] = useState(true);
-    const [billetList, setBilletList] = useState([]);
+    const [list, setList] = useState([]);
 
     useEffect(() => {
-        getBillets();
+        getReservations();
     }, []);
 
-    const getBillets = async () => {
+    const getReservations = async property => {
         setLoading(true);
-        const result = await api.getBillets(context.user.property.id);
+        const result = await api.getReservations();
         setLoading(false);
         if (result.error === '') {
-            setBilletList(result.list);
+            setList(result.list);
         } else {
             util.showToastAlert('Erro', result.error);
         }
@@ -30,21 +30,21 @@ export default () => {
 
     return (
         <C.Container>
-            {!loading && billetList.length === 0 && (
-                <C.NoListArea>
-                    <C.NoListText>
-                        Não há boletos para a propriedade{' '}
-                        {context.user.property.name}
-                    </C.NoListText>
-                </C.NoListArea>
-            )}
-            <C.List
-                data={billetList}
-                onRefresh={getBillets}
-                refreshing={loading}
-                renderItem={({item}) => <DocItem data={item} />}
-                keyExtractor={item => item.id.toString()}
-            />
+            <C.Scroller>
+                <C.ButtonArea onPress={null}>
+                    <C.ButtonText>Minhas reservas</C.ButtonText>
+                </C.ButtonArea>
+
+                <C.Title>Selecione uma área</C.Title>
+
+                {loading && <C.LoadingIcon size="large" color="#8863E6" />}
+
+                {!loading && list.length === 0 && (
+                    <C.NoListArea>
+                        <C.NoListText>Não há áreas disponíveis</C.NoListText>
+                    </C.NoListArea>
+                )}
+            </C.Scroller>
         </C.Container>
     );
 };

@@ -115,12 +115,6 @@ export default {
     },
     addWarningFile: async file => {
         let token = await AsyncStorage.getItem('token');
-        let formData = new FormData();
-        formData.append('photo', {
-            uri: file.uri,
-            type: file.type,
-            name: file.fileName,
-        });
 
         try {
             let req = await ReactNativeBlobUtil.fetch(
@@ -150,7 +144,6 @@ export default {
         let token = await AsyncStorage.getItem('token');
         let property = await AsyncStorage.getItem('property');
         property = JSON.parse(property);
-        console.log(photoList);
         let json = await request(
             'post',
             '/warning',
@@ -161,6 +154,72 @@ export default {
             },
             token,
         );
+        return json;
+    },
+    getReservations: async () => {
+        let token = await AsyncStorage.getItem('token');
+        let json = await request('get', '/reservations', {}, token);
+        return json;
+    },
+    getLostAndFound: async () => {
+        let token = await AsyncStorage.getItem('token');
+        let json = await request('get', '/foundandlost', {}, token);
+        return json;
+    },
+    setRecovered: async id => {
+        let token = await AsyncStorage.getItem('token');
+        let json = await request(
+            'put',
+            `/foundandlost/${id}`,
+            {
+                status: 'recovered',
+            },
+            token,
+        );
+        return json;
+    },
+    addLostItem: async (photo, description, where) => {
+        let token = await AsyncStorage.getItem('token');
+
+        try {
+            let req = await ReactNativeBlobUtil.fetch(
+                'POST',
+                `${baseUrl}/foundandlost`,
+                {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+                [
+                    {
+                        name: 'photo',
+                        filename: photo.fileName,
+                        type: photo.type,
+                        data: ReactNativeBlobUtil.wrap(photo.uri),
+                        description,
+                        where,
+                    },
+                    {
+                        name: 'description',
+                        data: description,
+                    },
+                    {
+                        name: 'where',
+                        data: where,
+                    },
+                ],
+            );
+
+            let json = await req.json();
+            return json;
+        } catch (ex) {
+            return {error: ex.toString()};
+        }
+    },
+    getUnitInfo: async () => {
+        let token = await AsyncStorage.getItem('token');
+        let property = await AsyncStorage.getItem('property');
+        property = JSON.parse(property);
+        let json = await request('get', `/unit/${property.id}`, {}, token);
         return json;
     },
 };
