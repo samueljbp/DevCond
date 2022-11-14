@@ -3,8 +3,10 @@ import styled from 'styled-components/native';
 export default {
     Container: styled.SafeAreaView`
         flex: 1;
-        padding: 20px;
         background-color: #f5f6fa;
+    `,
+    ContainerView: styled.View`
+        padding: 20px;
     `,
     Field: styled.TextInput`
         border: 1px;

@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import util from '../util/util';
 import api from '../services/api';
 
-const DrawerArea = styled.View`
+const DrawerArea = styled.SafeAreaView`
     flex: 1;
     background-color: #fff;
 `;

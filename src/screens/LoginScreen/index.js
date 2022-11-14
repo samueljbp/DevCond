@@ -47,33 +47,35 @@ export default () => {
 
     return (
         <C.Container>
-            <C.Logo
-                source={require('../../assets/undraw_home.png')}
-                resizeMode="contain"
-            />
+            <C.ContainerView>
+                <C.Logo
+                    source={require('../../assets/undraw_home.png')}
+                    resizeMode="contain"
+                />
 
-            <C.Field
-                placeholder="Digite seu CPF"
-                keyboardType="numeric"
-                value={cpf}
-                onChangeText={t => setCpf(t)}
-            />
+                <C.Field
+                    placeholder="Digite seu CPF"
+                    keyboardType="numeric"
+                    value={cpf}
+                    onChangeText={t => setCpf(t)}
+                />
 
-            <C.Field
-                placeholder="Digite sua senha"
-                keyboardType="numeric"
-                value={pwd}
-                secureTextEntry={true}
-                onChangeText={t => setPwd(t)}
-            />
+                <C.Field
+                    placeholder="Digite sua senha"
+                    keyboardType="numeric"
+                    value={pwd}
+                    secureTextEntry={true}
+                    onChangeText={t => setPwd(t)}
+                />
 
-            <C.ButtonArea onPress={handleLoginButton}>
-                <C.ButtonText>ENTRAR</C.ButtonText>
-            </C.ButtonArea>
+                <C.ButtonArea onPress={handleLoginButton}>
+                    <C.ButtonText>ENTRAR</C.ButtonText>
+                </C.ButtonArea>
 
-            <C.ButtonArea onPress={handleRegisterButton}>
-                <C.ButtonText>CADASTRAR</C.ButtonText>
-            </C.ButtonArea>
+                <C.ButtonArea onPress={handleRegisterButton}>
+                    <C.ButtonText>CADASTRAR</C.ButtonText>
+                </C.ButtonArea>
+            </C.ContainerView>
         </C.Container>
     );
 };
