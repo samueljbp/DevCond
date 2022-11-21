@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import styled from 'styled-components/native';
 import DatePicker from 'react-native-date-picker';
 import ValidatableTextInput from '../components/ValidatableTextInput';
+import util from '../util/util';
+import api from '../services/api';
 
 const Box = styled.View`
     padding: 20px;
@@ -35,9 +37,37 @@ const CancelButton = styled.Button`
 
 export default ({refreshFunction, setShowModal}) => {
     const [name, setName] = useState('');
+    const [nameHasError, setNameHasError] = useState(false);
     const [date, setDate] = useState(new Date());
 
-    const handleAdd = async () => {};
+    const handleAdd = async () => {
+        if (!name) {
+            setNameHasError(true);
+            util.showToastAlert('Atenção', 'Preencha os campos');
+            return;
+        }
+
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+
+        month = month < 10 ? '0' + month : month;
+        dat = day < 10 ? '0' + day : day;
+
+        let formnattedDate = `${year}-${month}-${day}`;
+
+        const result = await api.addUnitItem('person', {
+            name: name,
+            birthdate: formnattedDate,
+        });
+
+        if (result.error === '') {
+            refreshFunction();
+            setShowModal(false);
+        } else {
+            util.showToastAlert('Erro', result.error);
+        }
+    };
 
     const handleCancel = () => {
         setShowModal(false);
@@ -52,6 +82,7 @@ export default ({refreshFunction, setShowModal}) => {
                 placeholder="Digite o nome completo"
                 value={name}
                 onChangeTextAction={t => setName(t)}
+                hasError={nameHasError}
                 isRequired={true}
             />
 

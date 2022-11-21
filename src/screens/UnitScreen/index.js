@@ -11,6 +11,7 @@ import UnitPetSection from '../../components/UnitPetSection';
 import UnitModalAddPerson from '../../components/UnitModalAddPerson';
 import UnitModalAddVehicle from '../../components/UnitModalAddVehicle';
 import UnitModalAddPet from '../../components/UnitModalAddPet';
+import {NativeBaseProvider} from 'native-base';
 
 export default () => {
     const navigation = useNavigation();
@@ -98,6 +99,7 @@ export default () => {
                     </>
                 )}
             </C.Scroller>
+
             <C.ModalArea
                 visible={showModal}
                 transparent={true}
